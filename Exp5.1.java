@@ -15,24 +15,49 @@ Java Program:
 parseStringToInteger(): This method parses a string into an Integer. It catches any NumberFormatException if the string is not a valid number.
 calculateSum(): This method calculates the sum of a list of integers. Java automatically performs unboxing when adding Integer values to sum (an int).
 
+solution
 
 
+import java.util.*;
 
-Test Cases:
-
-Test Case 1:
-Input: 10, 20, 30, "40", "50"
-Expected Output: The sum of the list is: 150
-Description: The list contains a mix of primitive integers and integers parsed from strings.
-
-Test Case 2:
-Input: "100", "200", "300"
-Expected Output: The sum of the list is: 600
-Description: All values are parsed from strings, and the sum is calculated.
-
-Test Case 3:
-Input: "50", "invalid", "70"
-Expected Output:
-Invalid number format: invalid
-The sum of the list is: 120
-Description: One of the inputs is not a valid integer, so it's skipped, and the sum of valid values is calculated.
+public class SumCalculator {
+    
+    public static int parseStringToInteger(String str) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid number format: " + str);
+            return 0; // Returning 0 for invalid inputs
+        }
+    }
+    
+    public static int calculateSum(List<Integer> numbers) {
+        int sum = 0;
+        for (int num : numbers) { // Unboxing happens here
+            sum += num;
+        }
+        return sum;
+    }
+    
+    public static void main(String[] args) {
+        List<Integer> numbers1 = new ArrayList<>();
+        numbers1.add(10); // Autoboxing
+        numbers1.add(20);
+        numbers1.add(30);
+        numbers1.add(parseStringToInteger("40"));
+        numbers1.add(parseStringToInteger("50"));
+        System.out.println("The sum of the list is: " + calculateSum(numbers1));
+        
+        List<Integer> numbers2 = new ArrayList<>();
+        numbers2.add(parseStringToInteger("100"));
+        numbers2.add(parseStringToInteger("200"));
+        numbers2.add(parseStringToInteger("300"));
+        System.out.println("The sum of the list is: " + calculateSum(numbers2));
+        
+        List<Integer> numbers3 = new ArrayList<>();
+        numbers3.add(parseStringToInteger("50"));
+        numbers3.add(parseStringToInteger("invalid")); // This should print an error message
+        numbers3.add(parseStringToInteger("70"));
+        System.out.println("The sum of the list is: " + calculateSum(numbers3));
+    }
+}
